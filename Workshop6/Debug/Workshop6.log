@@ -1,0 +1,6 @@
+﻿  w6.cpp
+c:\milestone2\workshop6\workshop6\workshop6\grades.h(62): warning C4018: '<': signed/unsigned mismatch
+c:\milestone2\workshop6\workshop6\workshop6\grades.h(39): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+  Workshop6.vcxproj -> C:\Milestone2\Workshop6\Workshop6\Debug\Workshop6.exe
+  Workshop6.vcxproj -> C:\Milestone2\Workshop6\Workshop6\Debug\Workshop6.pdb (Full PDB)
