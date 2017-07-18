@@ -19,9 +19,7 @@
 #include "Grades.h"
 
 int main(int argc, char* argv[]) {
-  argc = 2;
-  argv[0] = "W6";
-  argv[1] = "w6.dat";
+
   if (argc != 2) {
     std::cerr << argv[0] <<
       ": incorrect number of arguments\n";
