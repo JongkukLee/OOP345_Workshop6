@@ -15,7 +15,9 @@
 // Name     Date    Reason
 //
 ///////////////////////////////////////////////////////////
-#pragma once
+#ifndef GRADES_H
+#define GRADES_H
+
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -23,12 +25,16 @@
 #include <vector>
 #include <exception>
 
+#define VERBOSE 0
+
+using namespace std;
+
 class Grades
 {
   // file name
   char* filename;
   // student information
-  std::vector<std::vector<std::string>> studentsV;
+  vector<std::vector<std::string>> studentsV;
 public:
   // one parameter constructor
   Grades (const char * f): filename(nullptr)
@@ -43,7 +49,7 @@ public:
     try
     {
       // file open
-      std::ifstream fs(this->filename, std::ios::in);
+      ifstream fs(this->filename, std::ios::in);
 
       if (!fs.is_open())
       {
@@ -51,15 +57,18 @@ public:
       }
       else
       {
-        std::string line;
+        std::string line = "";
         std::string field = "";
-        std::vector<std::string> v;
+        std::vector<string> v;
 
-        while (std::getline(fs, line))
+        while (getline(fs, line))
         {
-          std::cout << "Line -->" << line << "<--" << std::endl;
-		  
-          for (int i = 0; i < line.size(); i++)
+	  auto cr = line.find('\r');
+	  if (cr != std::string::npos)
+	    line.erase(cr);	
+          
+	  if(VERBOSE) cout << "Line -->" << line << "<--" << endl;
+          for (size_t i = 0; i < line.size(); i++)
           {
             field += line[i];
             if (line[i] == ' ' || i == (line.size() - 1) )
@@ -68,18 +77,19 @@ public:
 					v.push_back(field.erase(field.size() - 1));
 				else
 					v.push_back(field);
-			  std::cout << "Field[" << field << "]";
-			  field = "";
+				
+		if(VERBOSE) cout << "Field[" << field << "]";
+		  field = "";
             }
           }
-		  std::cout << std::endl;
-          this->studentsV.push_back(std::move(v));
+          if(VERBOSE) cout << endl;
+          this->studentsV.push_back(move(v));
         }
       }
     }
     catch (std::exception& e)
     {
-      std::cout << e.what() << std::endl;
+      cout << e.what() << endl;
     }
   }
   // copy constructor
@@ -96,19 +106,28 @@ public:
   // the student number, the student grade, and the letter equivalent as 
   // shown below on the right. 
   template<typename Func>
-  void displayGrades(std::ostream& os, Func f) const
+  void displayGrades(ostream& os, Func f) const
   {
 	  for (auto it : studentsV)
 	  {
 		  for (auto e : it)
 		  {
-			  os << e << " ";
 			  // display the letter equivalent as grade
-			  if (e.find('.') != std::string::npos)
+			  if (e.find('.') != string::npos)
 			  {
-				  os << f(std::stod(e)) << "\n";
+          os.setf(ios::fixed);
+          os.precision(2);
+          os << stod(e);
+          os.unsetf(ios::fixed);
+          os << " ";
+				  os << f(stod(e)) << "\n";
 			  }
+        else
+        {
+          os << e << " ";
+        }
 		  }
 	  }
   }
 };
+#endif
